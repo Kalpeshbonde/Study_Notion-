@@ -23,10 +23,10 @@ import MyCourses from "./components/core/Dashboard/MyCourses";
 import EditCourse from "./components/core/Dashboard/EditCourse";
 import Catalog from "./pages/Catalog";
 import CourseDetails from "./pages/CourseDetails";
-import { ACCOUNT_TYPE } from "./utils/constants";
 import VideoDetails from "./components/core/viewCourse/VideoDetails";
 import SeeCourse from "./pages/SeeCourse";
 import Instructor from "./components/core/Dashboard/InstructorDashboard/Instructor";
+import FinancialAidForm from "./components/core/financialAid/finaid";
 
 function App() {
   return (
@@ -89,6 +89,8 @@ function App() {
           }
         />
         <Route path="/contact" element={<Contact />} />
+
+        <Route path="/financial-aid" element={<FinancialAidForm/>} />
 
         <Route
           element={
