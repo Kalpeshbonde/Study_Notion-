@@ -28,7 +28,7 @@ const FinancialAidForm = () => {
         return (
           <>
             <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">Personal Information</h2>
+              <h2 className=" block text-xl font-semibold text-gray-800 dark:text-gray-100">Personal Information</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 dark:text-gray-300">First Name</label>
@@ -302,15 +302,16 @@ const FinancialAidForm = () => {
   return (
     <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="text-center text-3xl font-extrabold text-richblack-100 dark:text-gray-100">
+        <h1 className="text-center text-4xl font-extrabold text-white mb-8">
           Financial Aid Application
-        </h2>
-        <p className="mt-2 text-center text-sm text-richblack-300 dark:text-gray-300">
+        </h1>
+        <h3 className="mt-4 text-center text-sm text-white mb-4">
           Apply for financial assistance to access our premium courses
-        </p>
+        </h3>
+
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-2xl">
+      <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-2xl">
         <div className="bg-white dark:bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
           {formStep < 3 && (
             <div className="mb-8">
@@ -322,15 +323,15 @@ const FinancialAidForm = () => {
                   ></div>
                 </div>
                 <div className="flex justify-between">
-                  <div className={`text-xs font-medium ${formStep >= 0 ? 'text-blue-600' : 'text-gray-500 dark:text-gray-400'}`}>
+                <div className={`text-sm font-medium ${formStep >= 0 ? 'text-blue-600' : 'text-gray-500 dark:text-gray-400'}`}>
                     Personal Info
-                  </div>
-                  <div className={`text-xs font-medium ${formStep >= 1 ? 'text-blue-600' : 'text-gray-500 dark:text-gray-400'}`}>
+                </div>
+                <div className={`text-sm font-medium ${formStep >= 1 ? 'text-blue-600' : 'text-gray-500 dark:text-gray-400'}`}>
                     Financial Details
-                  </div>
-                  <div className={`text-xs font-medium ${formStep >= 2 ? 'text-blue-600' : 'text-gray-500 dark:text-gray-400'}`}>
+                </div>
+                <div className={`text-sm font-medium ${formStep >= 2 ? 'text-blue-600' : 'text-gray-500 dark:text-gray-400'}`}>
                     Statement
-                  </div>
+                </div>
                 </div>
               </div>
             </div>
