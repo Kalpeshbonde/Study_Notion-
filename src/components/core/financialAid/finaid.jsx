@@ -3,6 +3,17 @@ import React, { useState } from 'react';
 const FinancialAidForm = () => {
   const [formStep, setFormStep] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState('');
+  
+  // Sample courses data - in a real app, this would come from an API
+  const courses = [
+    { id: 'cs101', name: 'Introduction to Computer Science', price: 99.99 },
+    { id: 'web101', name: 'Web Development Fundamentals', price: 129.99 },
+    { id: 'js201', name: 'Advanced JavaScript', price: 149.99 },
+    { id: 'react101', name: 'React for Beginners', price: 119.99 },
+    { id: 'python101', name: 'Python Programming', price: 89.99 },
+    { id: 'data101', name: 'Data Science Fundamentals', price: 199.99 }
+  ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,7 +39,40 @@ const FinancialAidForm = () => {
         return (
           <>
             <div className="space-y-4">
-              <h2 className=" block text-xl font-semibold text-gray-800 dark:text-gray-100">Personal Information</h2>
+              <h2 className="block text-xl font-semibold text-gray-800 dark:text-gray-100">Course Selection</h2>
+              
+              <div>
+                <label htmlFor="course" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Select Course for Financial Aid</label>
+                <select
+                  id="course"
+                  name="course"
+                  required
+                  value={selectedCourse}
+                  onChange={(e) => setSelectedCourse(e.target.value)}
+                  className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                >
+                  <option value="">Select a course</option>
+                  {courses.map(course => (
+                    <option key={course.id} value={course.id}>
+                      {course.name} ( INR {course.price})
+                    </option>
+                  ))}
+                </select>
+              </div>
+              
+              {selectedCourse && (
+                <div className="p-4 bg-blue-50 dark:bg-blue-900 rounded-md">
+                  <h3 className="text-md font-medium text-blue-800 dark:text-blue-200">
+                    Course Details
+                  </h3>
+                  <p className="mt-1 text-sm text-blue-700 dark:text-blue-300">
+                    {courses.find(c => c.id === selectedCourse)?.name}<br />
+                    Regular Price: INR {courses.find(c => c.id === selectedCourse)?.price}
+                  </p>
+                </div>
+              )}
+              
+              <h2 className="block text-xl font-semibold text-gray-800 dark:text-gray-100 mt-6">Personal Information</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 dark:text-gray-300">First Name</label>
@@ -82,9 +126,9 @@ const FinancialAidForm = () => {
                   className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="">Select a country</option>
-                  <option value="US">United States</option>
+                  <option value="US">India</option>
                   <option value="CA">Canada</option>
-                  <option value="IN">India</option>
+                  <option value="IN">USA</option>
                   <option value="UK">United Kingdom</option>
                   <option value="AU">Australia</option>
                   <option value="Other">Other</option>
@@ -97,6 +141,7 @@ const FinancialAidForm = () => {
                 type="button"
                 onClick={() => setFormStep(1)}
                 className="px-4 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white"
+                disabled={!selectedCourse}
               >
                 Next
               </button>
@@ -119,16 +164,16 @@ const FinancialAidForm = () => {
                   className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="">Select status</option>
+                  <option value="student">Student</option>
                   <option value="employed">Employed full-time</option>
                   <option value="part-time">Employed part-time</option>
                   <option value="self-employed">Self-employed</option>
                   <option value="unemployed">Unemployed</option>
-                  <option value="student">Student</option>
                 </select>
               </div>
               
               <div>
-                <label htmlFor="income" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Annual Income (USD)</label>
+                <label htmlFor="income" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Annual Income</label>
                 <input
                   type="number"
                   id="income"
@@ -167,6 +212,25 @@ const FinancialAidForm = () => {
                   <option value="other">Other</option>
                 </select>
               </div>
+              
+              <div>
+                <label htmlFor="aidAmount" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  How much can you afford to pay?
+                </label>
+                <input
+                  type="number"
+                  id="aidAmount"
+                  name="aidAmount"
+                  min="0"
+                  max={courses.find(c => c.id === selectedCourse)?.price || 999}
+                  required
+                  className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder={`Enter amount (max $${courses.find(c => c.id === selectedCourse)?.price || 0})`}
+                />
+                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                  Regular course price: INR {courses.find(c => c.id === selectedCourse)?.price || 0}
+                </p>
+              </div>
             </div>
             
             <div className="mt-6 flex justify-between">
@@ -194,14 +258,21 @@ const FinancialAidForm = () => {
             <div className="space-y-4">
               <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">Statement of Need</h2>
               
+              <div className="bg-blue-50 dark:bg-blue-900 p-4 rounded-md mb-4">
+                <p className="text-sm text-blue-700 dark:text-blue-300">
+                  Selected Course: <strong>{courses.find(c => c.id === selectedCourse)?.name}</strong><br />
+                  Regular Price: <strong> INR {courses.find(c => c.id === selectedCourse)?.price}</strong>
+                </p>
+              </div>
+              
               <div>
                 <label htmlFor="statement" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Please explain why you need financial aid for this course (min 50 characters)
+                  Please explain why you need financial aid for this specific course (min 50 characters)
                 </label>
                 <textarea
                   id="statement"
                   name="statement"
-                  rows="6"
+                  rows="4"
                   required
                   minLength="50"
                   className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -216,11 +287,26 @@ const FinancialAidForm = () => {
                 <textarea
                   id="goalStatement"
                   name="goalStatement"
-                  rows="6"
+                  rows="4"
                   required
                   minLength="50"
                   className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Explain how this course will help your career development or educational journey..."
+                ></textarea>
+              </div>
+              
+              <div>
+                <label htmlFor="priorKnowledge" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  What prior knowledge or experience do you have related to this course subject? (min 50 characters)
+                </label>
+                <textarea
+                  id="priorKnowledge"
+                  name="priorKnowledge"
+                  rows="4"
+                  required
+                  minLength="50"
+                  className="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-gray-800 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Describe any relevant experience, courses, or self-study you've completed..."
                 ></textarea>
               </div>
               
@@ -253,7 +339,7 @@ const FinancialAidForm = () => {
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 bg-emerald-600 text-richblack-500 font-medium rounded-md hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-white disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+                className="px-4 py-2 bg-emerald-600 text-white font-medium rounded-md hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-white disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
                 disabled={loading}
               >
                 {loading ? (
@@ -280,7 +366,7 @@ const FinancialAidForm = () => {
             </div>
             <h3 className="mt-3 text-xl font-medium text-gray-800 dark:text-gray-100">Application Submitted</h3>
             <p className="mt-2 text-gray-600 dark:text-gray-300">
-              Your financial aid application has been received. We will review your application and notify you of the decision within 5-7 business days.
+              Your financial aid application for <strong>{courses.find(c => c.id === selectedCourse)?.name}</strong> has been received. We will review your application and notify you of the decision within 5-7 business days.
             </p>
             <div className="mt-6">
               <button
@@ -308,7 +394,6 @@ const FinancialAidForm = () => {
         <h3 className="mt-4 text-center text-sm text-white mb-4">
           Apply for financial assistance to access our premium courses
         </h3>
-
       </div>
 
       <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-2xl">
@@ -324,7 +409,7 @@ const FinancialAidForm = () => {
                 </div>
                 <div className="flex justify-between">
                 <div className={`text-sm font-medium ${formStep >= 0 ? 'text-blue-600' : 'text-gray-500 dark:text-gray-400'}`}>
-                    Personal Info
+                    Course & Personal Info
                 </div>
                 <div className={`text-sm font-medium ${formStep >= 1 ? 'text-blue-600' : 'text-gray-500 dark:text-gray-400'}`}>
                     Financial Details

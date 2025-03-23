@@ -15,8 +15,5 @@ export const NavbarLinks = [
     title: "Contact Us",
     path: "/contact",
   },
-  {
-    title:"Financial Aid",
-    path:"/financial-aid"
-  }
 ];
+

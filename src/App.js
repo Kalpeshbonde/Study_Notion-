@@ -103,15 +103,13 @@ function App() {
           <Route path="dashboard/enrolled-courses" element={<EnrolledCourses />} />
           <Route path="dashboard/cart" element={<Cart />} />
           <Route path="dashboard/settings" element={<Settings />} />
-
-
           <Route path="dashboard/instructor" element={<Instructor />} />
           <Route path="dashboard/add-course" element={<AddCourse />} />
           <Route path="dashboard/my-courses" element={<MyCourses />} />
           <Route path="dashboard/edit-course/:courseId" element={<EditCourse />} />
 
         </Route>
-
+        
         <Route
           element={
             <PrivateRoute>

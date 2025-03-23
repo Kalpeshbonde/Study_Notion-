@@ -91,6 +91,19 @@ function CourseDetailCard({ course, setConfirmationModal, handleBuyCourse }) {
 
                         }
                     </button>
+                    <button
+                        className={`bg-richblack-800 w-[340px] mx-auto p-3 text-richblack-25  rounded-xl font-medium 
+                            ${user && course?.studentsEnrolled.includes(user?._id) ? " bg-yellow-50 text-richblack-800" : " text-richblack-25 bg-richblack-800"} : `}
+                        onClick={
+                                () => navigate("/financial-aid") 
+                        }
+                    >
+                        {
+                            user && course?.studentsEnrolled.includes(user?._id) ? "Go to course" :
+                                "Apply Financial Aid"
+
+                        }
+                    </button>
                 </div>
 
                 <div className="">
